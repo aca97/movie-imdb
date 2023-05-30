@@ -1,39 +1,43 @@
 package com.aca.movieimdb.controller;
 
+import com.aca.movieimdb.dto.comment.CommentDTO;
 import com.aca.movieimdb.entity.Comment;
-import com.aca.movieimdb.entity.Movie;
-import com.aca.movieimdb.entity.User;
-import com.aca.movieimdb.repository.MovieRepository;
-import com.aca.movieimdb.repository.UserRepository;
+import com.aca.movieimdb.mapper.Mapper;
 import com.aca.movieimdb.service.CommentService;
-import com.aca.movieimdb.service.MovieService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor
+@ResponseBody
 public class CommentController {
     private final CommentService commentService;
-    private final MovieService movieService;
-    private final UserRepository userRepository;
+    private final Mapper mapper;
 
     @PostMapping("/movies/{movieId}/comments")
-    public String addComment(@PathVariable Long movieId, @RequestBody String content) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        User user = userRepository.findByEmail(userEmail);
-        Optional<Movie> optionalMovie = movieService.findById(movieId);
-        Movie movie = optionalMovie.get();
-        Comment comment = new Comment(content, user, movie, null, new ArrayList<>());
-        Comment savedComment = commentService.createComment(comment);
-        movie.getComments().add(savedComment);
-        movieService.save(movie);
-        return "Bravo brother";
+    public CommentDTO addComment(@PathVariable Long movieId, @RequestBody String content) {
+        Comment comment = new Comment();
+        comment.setContent(content);
+        Comment savedComment = commentService.createComment(comment, movieId);
+        return mapper.mapCommentToDTO(savedComment);
+    }
+
+    @PostMapping("/comments/{parentCommentId}/replies")
+    public ResponseEntity<CommentDTO> addReplyToComment(
+            @PathVariable Long parentCommentId,
+            @RequestBody CommentDTO replyDTO
+    ) {
+        Comment reply = new Comment();
+        reply.setContent(replyDTO.getContent());
+
+        Comment savedReply = commentService.createReply(reply, parentCommentId);
+
+        CommentDTO savedReplyDTO = mapper.mapCommentToDTO(savedReply);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReplyDTO);
     }
 }

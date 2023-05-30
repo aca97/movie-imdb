@@ -1,7 +1,6 @@
 package com.aca.movieimdb.controller;
 
-import com.aca.movieimdb.dto.MovieDto;
-import com.aca.movieimdb.entity.Movie;
+import com.aca.movieimdb.dto.movie.MovieDTO;
 import com.aca.movieimdb.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    public List<MovieDto> getMovies() {
+    public List<MovieDTO> getMovies() {
         return movieService.getMovies();
     }
 

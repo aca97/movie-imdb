@@ -1,0 +1,4 @@
+<div class="movie" *ngFor="let movie of movies">
+    <h2>{{movie.title}}</h2>
+    <app-comment [comments]="movie.comments"></app-comment>
+</div>

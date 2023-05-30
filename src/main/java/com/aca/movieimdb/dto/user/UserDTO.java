@@ -1,4 +1,4 @@
-package com.aca.movieimdb.dto;
+package com.aca.movieimdb.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

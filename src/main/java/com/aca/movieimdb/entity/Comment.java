@@ -24,21 +24,22 @@ public class Comment {
     private User user;
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
-    @JsonIgnore
     private Movie movie;
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    @JsonIgnore
     private Comment parentComment;
+
+    private Long level;
+
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Comment> replies = new ArrayList<>();
 
-    public Comment(String content, User user, Movie movie, Comment parentComment, List<Comment> replies) {
+    public Comment(String content, User user, Movie movie, Comment parentComment, Long level, List<Comment> replies) {
         this.content = content;
         this.user = user;
         this.movie = movie;
         this.parentComment = parentComment;
+        this.level = level;
         this.replies = replies;
     }
 }

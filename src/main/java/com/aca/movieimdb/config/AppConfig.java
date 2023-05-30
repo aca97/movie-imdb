@@ -1,5 +1,6 @@
 package com.aca.movieimdb.config;
 
+import com.aca.movieimdb.mapper.Mapper;
 import com.aca.movieimdb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,10 +19,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class AppConfig implements WebMvcConfigurer {
     private final UserRepository userRepository;
+
+    @Bean
+    public Mapper mapper() {
+        return new Mapper();
+    }
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username);
-
     }
 
     @Bean

@@ -1,0 +1,42 @@
+<!-- comment.component.html -->
+<ng-container *ngFor="let comment of comments">
+  <div class="comment" [ngClass]="{ 'child-comment': comment.level > 1 }">
+    <div class="comment-content" [style.marginLeft.px]="comment.level * 20">
+      <strong>{{ comment.user.firstname }} {{ comment.user.lastname }}</strong
+      >: {{ comment.content }}
+    </div>
+  </div>
+  <ng-container *ngIf="comment.replies.length > 0">
+    <ng-template
+      [ngTemplateOutlet]="commentTemplate"
+      [ngTemplateOutletContext]="{
+        $implicit: comment.replies,
+        level: comment.level + 1
+      }"
+    >
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<ng-template #commentTemplate let-comments let-level="level">
+  <div class="comment-container">
+    <ng-container *ngFor="let reply of comments">
+      <div class="comment" [ngClass]="{ 'child-comment': level > 1 }">
+        <div class="comment-content" [style.marginLeft.px]="level * 20">
+          <strong>{{ reply.user.firstname }} {{ reply.user.lastname }}</strong
+          >: {{ reply.content }}
+        </div>
+      </div>
+      <ng-container *ngIf="reply.replies.length > 0">
+        <ng-template
+          [ngTemplateOutlet]="commentTemplate"
+          [ngTemplateOutletContext]="{
+            $implicit: reply.replies,
+            level: level + 1
+          }"
+        >
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

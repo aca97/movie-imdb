@@ -1,4 +1,6 @@
 <div class="movie" *ngFor="let movie of movies">
     <h2>{{movie.title}}</h2>
+    <img src={{movie.poster}} alt="img">
+    <button>Leave a comment</button>
     <app-comment [comments]="movie.comments"></app-comment>
 </div>

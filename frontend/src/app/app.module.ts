@@ -10,23 +10,34 @@ import { AuthGuard } from './auth/guard/auth.guard';
 import { JwtInterceptor } from './auth/helpers/jwt.interceptor';
 import { MovieComponent } from './movie/movie.component';
 import { CommentComponent } from './comment/comment.component';
+import { NavbarComponent } from "./navbar/navbar.component";
+import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, MovieComponent, CommentComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-  ],
-  providers: [
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        MovieComponent,
+        CommentComponent,
+        ReactiveFormComponent,
+    ],
+    providers: [
+        AuthGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true,
+        },
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        NavbarComponent,
+        ReactiveFormsModule
+    ]
 })
 export class AppModule {}

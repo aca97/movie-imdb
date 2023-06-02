@@ -1,9 +1,11 @@
-<!-- comment.component.html -->
 <ng-container *ngFor="let comment of comments">
   <div class="comment" [ngClass]="{ 'child-comment': comment.level > 1 }">
     <div class="comment-content" [style.marginLeft.px]="comment.level * 20">
       <strong>{{ comment.user.firstname }} {{ comment.user.lastname }}</strong
       >: {{ comment.content }}
+    </div>
+    <div class="btn">
+      <button>Reply</button>
     </div>
   </div>
   <ng-container *ngIf="comment.replies.length > 0">
@@ -25,6 +27,9 @@
         <div class="comment-content" [style.marginLeft.px]="level * 20">
           <strong>{{ reply.user.firstname }} {{ reply.user.lastname }}</strong
           >: {{ reply.content }}
+        </div>
+        <div class="btn">
+          <button>Reply</button>
         </div>
       </div>
       <ng-container *ngIf="reply.replies.length > 0">

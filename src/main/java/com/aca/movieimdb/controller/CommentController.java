@@ -27,10 +27,7 @@ public class CommentController {
     }
 
     @PostMapping("/comments/{parentCommentId}/replies")
-    public ResponseEntity<CommentDTO> addReplyToComment(
-            @PathVariable Long parentCommentId,
-            @RequestBody CommentDTO replyDTO
-    ) {
+    public ResponseEntity<CommentDTO> addReplyToComment(@PathVariable Long parentCommentId, @RequestBody CommentDTO replyDTO) {
         Comment reply = new Comment();
         reply.setContent(replyDTO.getContent());
 

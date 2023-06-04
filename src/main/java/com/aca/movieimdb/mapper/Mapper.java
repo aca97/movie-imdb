@@ -1,6 +1,7 @@
 package com.aca.movieimdb.mapper;
 
 import com.aca.movieimdb.dto.comment.CommentDTO;
+import com.aca.movieimdb.dto.movie.BasicMovieDTO;
 import com.aca.movieimdb.dto.movie.MovieDTO;
 import com.aca.movieimdb.dto.user.UserDTO;
 import com.aca.movieimdb.entity.Comment;
@@ -19,6 +20,7 @@ public class Mapper {
                 user.getEmail()
         );
     }
+
     public CommentDTO mapCommentToDTO(Comment comment) {
         List<CommentDTO> replyDTOs = mapCommentsToDTOs(comment.getReplies());
         return new CommentDTO(
@@ -29,11 +31,13 @@ public class Mapper {
                 replyDTOs
         );
     }
+
     List<CommentDTO> mapCommentsToDTOs(List<Comment> comments) {
         return comments.stream()
                 .map(this::mapCommentToDTO)
                 .collect(Collectors.toList());
     }
+
     public MovieDTO mapToDTO(Movie movie) {
         List<CommentDTO> commentDTOs = mapCommentsToDTOs(movie.getComments());
         return new MovieDTO(
@@ -46,6 +50,14 @@ public class Mapper {
                 movie.getBackdrops(),
                 movie.getGenres(),
                 commentDTOs
+        );
+    }
+
+    public BasicMovieDTO mapBasicMovieDTOs(Movie movie) {
+        return new BasicMovieDTO(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getPoster()
         );
     }
 }

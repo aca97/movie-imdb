@@ -1,5 +1,6 @@
 package com.aca.movieimdb.service.impl;
 
+import com.aca.movieimdb.dto.movie.BasicMovieDTO;
 import com.aca.movieimdb.dto.movie.MovieDTO;
 import com.aca.movieimdb.entity.Movie;
 import com.aca.movieimdb.mapper.Mapper;
@@ -28,6 +29,14 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieRepository.findAll();
         return movies.stream()
                 .map(mapper::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BasicMovieDTO> getCarouselMovies() {
+        List<Movie> movies = movieRepository.findAll();
+        return  movies.stream()
+                .map(mapper::mapBasicMovieDTOs)
                 .collect(Collectors.toList());
     }
 

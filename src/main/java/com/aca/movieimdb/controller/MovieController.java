@@ -1,5 +1,6 @@
 package com.aca.movieimdb.controller;
 
+import com.aca.movieimdb.dto.movie.BasicMovieDTO;
 import com.aca.movieimdb.dto.movie.MovieDTO;
 import com.aca.movieimdb.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ public class MovieController {
     @GetMapping
     public List<MovieDTO> getMovies() {
         return movieService.getMovies();
+    }
+
+    @GetMapping("/carousel")
+    public List<BasicMovieDTO> getCarouselMovies() {
+        return movieService.getCarouselMovies();
     }
 
 }
